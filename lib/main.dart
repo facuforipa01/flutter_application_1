@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/clima.widget.dart';
 import 'package:flutter_application_1/ej1.dart';
 import 'package:flutter_application_1/ej2.dart';
 import 'package:flutter_application_1/ej3.dart';
@@ -87,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
         case 7:
         page = BienvenidaNavigator();
         break;
+        case 8:
+        page = Clima();
+        break;
       default:
         throw UnimplementedError('no widget selected for $selectedIndex');
     }
@@ -131,6 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.person_add),
                     label: Text('5 - Navegacion'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.cloud),
+                    label: Text('111 - Clima API'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
