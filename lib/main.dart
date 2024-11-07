@@ -7,9 +7,11 @@ import 'package:flutter_application_1/ej3.dart';
 import 'package:flutter_application_1/ej4.dart';
 import 'package:flutter_application_1/ej5.dart';
 import 'package:flutter_application_1/ej6.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async{
+  await dotenv.load();
   runApp(MyApp());
 }
 
@@ -133,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('5 - Formulario Registro'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.person_add),
-                    label: Text('5 - Navegacion'),
+                    icon: Icon(Icons.arrow_circle_left),
+                    label: Text('6 - Navegacion'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.cloud),

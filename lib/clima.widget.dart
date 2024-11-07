@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:weather_icons/weather_icons.dart';
 import 'clima.service.dart'; // Asegúrate de que el nombre del archivo sea correcto
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 
@@ -23,20 +25,24 @@ class Clima extends StatefulWidget {
 class _ClimaState extends State<Clima> {
   final _formKey = GlobalKey<FormState>();
   String? ciudad;
-  String? climaInfo; // Variable para almacenar la info del clima
+  String? climaInfo;
+  IconData? climaIcon;
+   // Variable para almacenar la info del clima
 
   Future<void> fetchWeather() async {
-    final weatherService = WeatherService('eaad0841e94e659d73d0c7896dcd0b58');
+    final weatherService = WeatherService();
 
     try {
       final weatherData = await weatherService.getWeather(ciudad!);
-      var info1 = 'Clima en ${weatherData['name']}: ${weatherData['weather'][0]['description']}';
-      var info2 = 'Calentura: ${weatherData['main']['temp']}°C';
-      var info3 = 'Vientoide: ${weatherData['wind']['speed']}m/s';
-       var info4 = 'Vientoide: ${weatherData['weather'][0]['icon']}';
-      // iconUrl = 'http://openweathermap.org/img/wn/$info4@2x.png';
+      var info1 =
+          'Clima en ${weatherData['name']}:\n${weatherData['weather'][0]['description']}';
+      var info2 = '${weatherData['main']['temp']}°C';
+      var info3 = 'Viento: ${weatherData['wind']['speed']}m/s';
+      var icono =  getWeatherIcon('${weatherData['weather'][0]['icon']}') ;
       setState(() {
-        climaInfo = '$info1\n$info2\n$info3\n$info4'; // Actualiza la info del clima
+        climaInfo =
+            '$info1\n$info2\n$info3\n'; // Actualiza la info del clima
+            climaIcon = icono; // Actualiza el icono del clima
       });
     } catch (e) {
       setState(() {
@@ -84,12 +90,36 @@ class _ClimaState extends State<Clima> {
             SizedBox(height: 20),
             if (climaInfo != null) // Muestra la información del clima si existe
               Text(
-                'Info Clima: $climaInfo',
+                '$climaInfo',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+              Icon(climaIcon)
           ],
         ),
       ),
     );
+  }
+}
+
+IconData getWeatherIcon(String weatherCode) {
+  switch (weatherCode) {
+    case "01d":
+      return WeatherIcons.day_sunny;
+    case "02d":
+      return WeatherIcons.day_cloudy;
+    case "03d":
+      return WeatherIcons.cloud;
+    case "04d":
+      return WeatherIcons.cloudy;
+    case "09d":
+      return WeatherIcons.showers;
+    case "10d":
+      return WeatherIcons.rain;
+    case "11d":
+      return WeatherIcons.thunderstorm;
+    case "13d":
+      return WeatherIcons.snow;
+    default:
+      return WeatherIcons.refresh; // A fallback icon in case of unknown code
   }
 }
